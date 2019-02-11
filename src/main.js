@@ -1,10 +1,22 @@
 import Vue from 'vue'
-import App from './App.vue'
+
 import store from './store'
+import SL from './SL.vue'
+
 
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
+  render: h => h(SL, {props: { slotid: 'main' }}),
   store,
-}).$mount('#app')
+}).$mount('#app-center')
+
+new Vue({
+  render: h => h(SL, {props: { slotid: 'left' }}),
+  store,
+}).$mount('#app-left')
+
+new Vue({
+  render: h => h(SL, {props: { slotid: 'right' }}),
+  store,
+}).$mount('#app-right')
