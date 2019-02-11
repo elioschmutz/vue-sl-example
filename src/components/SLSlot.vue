@@ -5,21 +5,16 @@
       <Layout class="sl-block" v-for="layout in layouts" :key="layout.id"
               :layoutid="layout.id"
               :slotid="slotid" />
-      <!-- <div class="sl-block" v-for="element in slots" :key="element">
-        {{ element }}
-
-      </div> -->
     </draggable>
   </div>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
-import Toolbar from './Toolbar'
 import Layout from './Layout'
 
 export default {
-  components: { draggable, Layout, Toolbar },
+  components: { draggable, Layout},
   name: 'SLSlot',
   props: {
     slotid: String

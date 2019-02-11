@@ -58,6 +58,18 @@ const store = new Vuex.Store({
             rows: 1,
             kind: 'layout',
             contents: []
+        }],
+        footer1: [{
+            id: '5',
+            rows: 1,
+            kind: 'layout',
+            contents: []
+        }],
+        footer2: [{
+            id: '6',
+            rows: 1,
+            kind: 'layout',
+            contents: []
         }]
     }
   },
@@ -66,7 +78,6 @@ const store = new Vuex.Store({
       state.slots[payload.slotid] = payload.values
     },
     updateLayout (state, payload) {
-        console.log(state.slots[payload.slotid].filter((l) => l.id === payload.layoutid)[0])
       state.slots[payload.slotid].filter((l) => l.id === payload.layoutid)[0].contents = payload.values
     }
   }

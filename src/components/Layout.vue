@@ -1,41 +1,61 @@
 <template>
     <div class="sl-layout">
         <div class="layout-toolbar">
-           <div class="toolbar-item">
-            <ul @click="showRowModal = !showRowModal" v-if="showRowModal" class="layoutModal">
-                <li><i class="button small material-icons">view_column</i></li>
-                <li><i class="button small material-icons">view_array</i></li>
-                <li><i class="button small material-icons">view_column</i></li>
-                <li><i class="button small material-icons">view_array</i></li>
-            </ul>
-            <div @click="showRowModal = !showRowModal"><i class="button small material-icons">view_column</i></div>
-        </div>
-        <div class="toolbar-item">
-           <div @click="addBlock" v-if="showAddModal" class="addModal">
-               <input placeholder="Filter..." />
-               <div>
-                <div class="portalType"><i class="small material-icons">folder</i> Folder</div>
-                <div class="portalType"><i class="small material-icons">image</i> Image</div>
-                <div class="portalType"><i class="small material-icons">label</i> Label</div>
-                <div class="portalType"><i class="small material-icons">list</i> List</div>
-                <div class="portalType"><i class="small material-icons">album</i> Album</div>
-                <div class="portalType"><i class="small material-icons">folder</i> Folder</div>
-                <div class="portalType"><i class="small material-icons">image</i> Image</div>
-                <div class="portalType"><i class="small material-icons">label</i> Label</div>
-                <div class="portalType"><i class="small material-icons">list</i> List</div>
-                <div class="portalType"><i class="small material-icons">album</i> Album</div>
+            <div class="toolbar-item">
+                <ul @click="showRowModal = !showRowModal" v-if="showRowModal" class="layoutModal">
+                    <li><i class="button small material-icons">view_column</i></li>
+                    <li><i class="button small material-icons">view_array</i></li>
+                    <li><i class="button small material-icons">view_column</i></li>
+                    <li><i class="button small material-icons">view_array</i></li>
+                </ul>
+                <div @click="showRowModal = !showRowModal"><i class="button small material-icons">view_column</i></div>
             </div>
-            </div>
-            <div @click="showAddModal = !showAddModal"><i class="button small material-icons">add</i></div>
-        </div>
-        <div class="toolbar-item">
-                    <div><i class="button small material-icons">delete</i></div>
+            <div class="toolbar-item">
+                <div @click="addBlockTop" v-if="showAddModalTop" class="addModal">
+                    <input placeholder="Filter..." />
+                    <div>
+                        <div class="portalType"><i class="small material-icons">folder</i> Folder</div>
+                        <div class="portalType"><i class="small material-icons">image</i> Image</div>
+                        <div class="portalType"><i class="small material-icons">label</i> Label</div>
+                        <div class="portalType"><i class="small material-icons">list</i> List</div>
+                        <div class="portalType"><i class="small material-icons">album</i> Album</div>
+                        <div class="portalType"><i class="small material-icons">folder</i> Folder</div>
+                        <div class="portalType"><i class="small material-icons">image</i> Image</div>
+                        <div class="portalType"><i class="small material-icons">label</i> Label</div>
+                        <div class="portalType"><i class="small material-icons">list</i> List</div>
+                        <div class="portalType"><i class="small material-icons">album</i> Album</div>
+                    </div>
                 </div>
+                <div @click="showAddModalTop = !showAddModalTop"><i class="button small material-icons">add</i></div>
+            </div>
+            <div class="toolbar-item">
+                <div><i class="button small material-icons">delete</i></div>
+            </div>
 
         </div>
-      <draggable v-model="blocks" :options="{group:'blocks'}">
-          <TextBlock v-for="block in blocks" :key="block.id" :block="block"/>
+        <draggable v-model="blocks" :options="{group:'blocks'}">
+            <TextBlock v-for="block in blocks" :key="block.id" :block="block"/>
         </draggable>
+        <div class="layout-toolbar" v-if="blocks.length>0">
+            <div class="toolbar-item">
+                <div @click="addBlockBottom" v-if="showAddModalBottom" class="addModal">
+                    <input placeholder="Filter..." />
+                    <div>
+                        <div class="portalType"><i class="small material-icons">folder</i> Folder</div>
+                        <div class="portalType"><i class="small material-icons">image</i> Image</div>
+                        <div class="portalType"><i class="small material-icons">label</i> Label</div>
+                        <div class="portalType"><i class="small material-icons">list</i> List</div>
+                        <div class="portalType"><i class="small material-icons">album</i> Album</div>
+                        <div class="portalType"><i class="small material-icons">folder</i> Folder</div>
+                        <div class="portalType"><i class="small material-icons">image</i> Image</div>
+                        <div class="portalType"><i class="small material-icons">label</i> Label</div>
+                        <div class="portalType"><i class="small material-icons">list</i> List</div>
+                        <div class="portalType"><i class="small material-icons">album</i> Album</div>
+                    </div>
+                </div>
+                <div @click="showAddModalBottom = !showAddModalBottom"><i class="button small material-icons">add</i></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -49,7 +69,8 @@ export default {
   data: () => {
     return {
         showRowModal: false,
-        showAddModal: false,
+        showAddModalTop: false,
+        showAddModalBottom: false,
     }
   },
   props: {
@@ -57,7 +78,7 @@ export default {
     layoutid: String,
   },
   methods: {
-      addBlock: function() {
+      addBlockTop: function() {
           let block = {
                     id: Math.floor(Math.random() * 10000000),
                     kind: 'textblock',
@@ -65,7 +86,17 @@ export default {
                     text: '...'
                 }
           this.blocks = [block].concat(this.layout.contents)
-          this.showAddModal = false
+          this.showAddModalTop = false
+      },
+      addBlockBottom: function() {
+          let block = {
+                    id: Math.floor(Math.random() * 10000000),
+                    kind: 'textblock',
+                    title: 'Ein neuer Block',
+                    text: '...'
+                }
+          this.blocks = this.layout.contents.concat([block])
+          this.showAddModalTop = false
       }
   },
   computed: {

@@ -6,17 +6,16 @@ import SL from './SL.vue'
 
 Vue.config.productionTip = false
 
-new Vue({
-  render: h => h(SL, {props: { slotid: 'main' }}),
-  store,
-}).$mount('#app-center')
+let createSlot = (slotid) => {
+    new Vue({
+        render: h => h(SL, {props: { slotid }}),
+        store,
+    }).$mount(`#app-${slotid}`)
 
-new Vue({
-  render: h => h(SL, {props: { slotid: 'left' }}),
-  store,
-}).$mount('#app-left')
+}
 
-new Vue({
-  render: h => h(SL, {props: { slotid: 'right' }}),
-  store,
-}).$mount('#app-right')
+createSlot('main')
+createSlot('left')
+createSlot('right')
+createSlot('footer1')
+createSlot('footer2')
