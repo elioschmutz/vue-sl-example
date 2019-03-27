@@ -33,8 +33,11 @@
             </div>
 
         </div>
-        <draggable v-model="blocks" :options="{group:'blocks'}">
-            <TextBlock v-for="block in blocks" :key="block.id" :block="block"/>
+        <draggable v-model="blocks" :options="layoutOptions">
+          <template v-for="block in blocks">
+            <TextBlock :block="block" v-if="block.kind == 'textblock'" :key="block.id"/>
+            <Layout :layout="block" :slotid="slotid" v-if="block.kind == 'layout'" :key="block.id"/>
+          </template>
         </draggable>
         <div class="layout-toolbar" v-if="blocks.length>0">
             <div class="toolbar-item">
@@ -71,11 +74,19 @@ export default {
         showRowModal: false,
         showAddModalTop: false,
         showAddModalBottom: false,
+        layoutOptions: {
+        group: {
+          name: 'groups',
+          put: function(to, from, element) {
+            return element.classList.contains('sl-layout') || element.classList.contains('sl-block')
+          }
+        }
+      }
     }
   },
   props: {
     slotid: String,
-    layoutid: String,
+    layout: Object,
   },
   methods: {
       addBlockTop: function() {
@@ -100,9 +111,6 @@ export default {
       }
   },
   computed: {
-    layout: function() {
-        return this.$store.state.slots[this.slotid].filter((layout) => layout.id === this.layoutid)[0]
-    },
     blocks: {
       get() {
         return this.layout.contents
@@ -111,7 +119,7 @@ export default {
         this.$store.commit({
           type: 'updateLayout',
           slotid: this.slotid,
-          layoutid: this.layoutid,
+          layoutid: this.layout.id,
           values: value
         })
       }

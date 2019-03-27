@@ -1,10 +1,14 @@
 <template>
   <div class="hello">
     <h4>Slot: {{ slotid }}</h4>
-    <draggable v-model="layouts" :options="{group:'layouts'}" class="sl-layout">
-      <Layout class="sl-block" v-for="layout in layouts" :key="layout.id"
-              :layoutid="layout.id"
-              :slotid="slotid" />
+    <draggable v-model="layouts" :options="layoutOptions" class="sl-layout">
+      <Layout
+        class="sl-block"
+        v-for="layout in layouts"
+        :key="layout.id"
+        :layout="layout"
+        :slotid="slotid"
+      />
     </draggable>
   </div>
 </template>
@@ -14,10 +18,23 @@ import draggable from 'vuedraggable'
 import Layout from './Layout'
 
 export default {
-  components: { draggable, Layout},
+  components: { draggable, Layout },
   name: 'SLSlot',
+
   props: {
     slotid: String
+  },
+  data: () => {
+    return {
+      layoutOptions: {
+        group: {
+          name: 'layouts',
+          put: function(to, from, element) {
+            return element.classList.contains('sl-layout')
+          }
+        }
+      }
+    }
   },
   computed: {
     layouts: {
@@ -36,6 +53,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
